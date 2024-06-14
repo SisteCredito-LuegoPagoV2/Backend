@@ -1,7 +1,7 @@
 --CouponsV2 DATABASE
 
 --1) Strong Table
-CREATE TABLE MarketplaceUser(
+CREATE TABLE MarketplaceUsers(
     id int PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(125) NOT NULL,
     password VARCHAR(125) NOT NULL,
@@ -9,23 +9,24 @@ CREATE TABLE MarketplaceUser(
 );
 
 --2) Strong Table
-CREATE TABLE MarketingUser(
+CREATE TABLE MarketingUsers(
     id int PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(125) NOT NULL,
     password VARCHAR(125) NOT NULL,
     email VARCHAR(125) NOT NULL UNIQUE
 );
 
+
 --3) Strong Table 1:1 with UserRole
 
-CREATE TABLE Role(
+CREATE TABLE Roles(
     id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     name VARCHAR(125) NOT NULL UNIQUE
 )
 
 --4)Weak Table -> M:1 (Muchos a uno) with Role and MarketingUser
 
-CREATE TABLE UserRole(
+CREATE TABLE UserRoles(
     id int PRIMARY KEY AUTO_INCREMENT NOT NULL,
     user_id int NOT NULL,
     role_id int NOT NULL,
@@ -36,7 +37,7 @@ CREATE TABLE UserRole(
 
 --5)Strong and weak Table -> 1:1 (uno a uno) 
 
-CREATE TABLE Coupon(
+CREATE TABLE Coupons(
     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
@@ -52,14 +53,9 @@ CREATE TABLE Coupon(
     FOREIGN KEY (created_by) REFERENCES MarketplaceUser(id)
 );
 
-
-ALTER TABLE Coupon
-RENAME COLUMN statuts TO status;
-
-
 --6) Weak Table -> 1:1 with Coupon
 
-CREATE TABLE CouponHistory(
+CREATE TABLE CouponHistories(
     id int PRIMARY KEY AUTO_INCREMENT,
     coupon_id int NOT NULL,
     change_date DATETIME,
@@ -69,10 +65,8 @@ CREATE TABLE CouponHistory(
     FOREIGN KEY (coupon_id) REFERENCES Coupon (id)
 )
 
-DROP TABLE CouponHistory;
-
 --7) WEAK Table -> M:1 with MarketplaceUser and Coupon
-CREATE TABLE CouponUsage(
+CREATE TABLE CouponUsages(
     id int PRIMARY KEY AUTO_INCREMENT,
     coupon_id int,
     user_id int,
@@ -82,12 +76,9 @@ CREATE TABLE CouponUsage(
     FOREIGN KEY (user_id) REFERENCES MarketplaceUser(id)
 );
 
-DROP TABLE CouponUsage;
-
-
 --8) STRONG - WEAK Table -> 1:M with MarketPlace and PurchaseCoupon
 
-CREATE TABLE Purchase(
+CREATE TABLE Purchases(
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
     date DATETIME,
@@ -95,8 +86,9 @@ CREATE TABLE Purchase(
     FOREIGN KEY (user_id) REFERENCES MarketplaceUser(id)
 );
 
+
 --9) WEAK Table -> M:1 with Purchase and Coupon
-CREATE TABLE PurchaseCoupon(
+CREATE TABLE PurchaseCoupons(
     id INT PRIMARY KEY AUTO_INCREMENT,
     purchase_id INT NOT NULL,
     coupon_id INT NOT NULL,
