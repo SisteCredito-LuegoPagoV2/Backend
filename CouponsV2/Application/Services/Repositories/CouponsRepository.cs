@@ -1,56 +1,71 @@
 using CouponsV2.Models;
-using CouponsV2.Data;
-using CouponsV2.Interfaces;
-// using CouponsV2.Controllers;
-using Microsoft.AspNetCore.Mvc;
+using CouponsV2.Infrastructure.Data;
+using CouponsV2.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace CouponsV2.Services
+namespace CouponsV2.Application.Services.Repositories
 {
     public class CouponsRepository : ICouponsRepository
-    {
+    {   
         private readonly BaseContext _context;
-        public CouponsRepository(CouponsRepository context)
+
+        public CouponsRepository(BaseContext context)
         {
             _context = context;
         }
 
-        public IEnumerable<Coupon> GetAllCouponsAsync()
+        public async Task<IEnumerable<Coupon>> GetAllCouponsAsync()
         {
-            return _context.Coupons.ToList();
-        }
-        public Coupon? GetCouponByIdAsync(int id)
-        {
-            return _context.Coupons.FirstOrDefault(c => c.id == id);
+            return await _context.Coupons.ToListAsync();
         }
 
-        public Coupon? CreateCouponAsync(Coupon coupon)
+        public async Task<Coupon?> GetCouponByIdAsync(int id)
+        {
+            return await _context.Coupons.FirstOrDefaultAsync(c => c.id == id);
+        }
+
+        public async Task<Coupon> CreateCouponAsync(Coupon coupon)
         {
             _context.Coupons.Add(coupon);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return coupon;
         }
 
-        public Coupon? UpdateCouponAsync(Coupon coupon)
+        public async Task<Coupon> UpdateCouponAsync(Coupon coupon)
         {
             _context.Coupons.Update(coupon);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return coupon;
         }
 
-        public Coupon? DeleteCouponAsync(int id)
+        public async Task<Coupon?> DeleteCouponAsync(int id)
         {
-            var coupon = _context.Coupons.FirstOrDefault(c => c.id == id);
-            coupon.status = "inactive";
-            _context.SaveChanges();
+            var coupon = await _context.Coupons.FirstOrDefaultAsync(c => c.id == id);
+            if (coupon != null)
+            {
+                coupon.status = "inactive";
+                await _context.SaveChangesAsync();
+            }
             return coupon;
         }
 
-        public Coupon? GetCouponsByCodeAsync(string code)
+        public async Task<Coupon?> GetCouponsByCodeAsync(string code)
         {
-            return _context.Coupons.FirstOrDefault(c => c.code == code);
+            return await _context.Coupons.FirstOrDefaultAsync(c => c.code == code);
         }
 
-
+        public async Task<Coupon?> RedemptionCouponAsync(string code)
+        {
+            var coupon = await _context.Coupons.FirstOrDefaultAsync(c => c.code == code);
+            if (coupon != null)
+            {
+                coupon.status = "used";
+                await _context.SaveChangesAsync();
+            }
+            return coupon;
+        }
     }
 }

@@ -1,4 +1,4 @@
-using CouponsV2.Data;
+using CouponsV2.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace CouponsV2.Models
@@ -8,8 +8,8 @@ namespace CouponsV2.Models
         public int ? id { get; set; }
         public string ? name { get; set; }
         public string ? description { get; set; }
-        public DateTime ? start_date { get; set; }
-        public DateTime ? end_date { get; set; }
+        public DateOnly ? start_date { get; set; }
+        public DateOnly ? end_date { get; set; }
         public string ? discount_type { get; set; }
         public string ? discount_value { get; set; }
         public int ? usage_limit {get; set;}
@@ -18,6 +18,7 @@ namespace CouponsV2.Models
         public string ? status {get; set; }
         public int? created_by {get; set; }
         public string? code {get; set;}
+        public DateOnly? CreatedAt {get; set;}
 
     }
 }

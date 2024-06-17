@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore;
 using Microsoft.EntityFrameworkCore;
-using CouponsV2.Data;
+using CouponsV2.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -56,6 +56,9 @@ CREATE TABLE Coupons(
 ALTER TABLE Coupons
 ADD COLUMN code VARCHAR(40) NOT NULL;
 
+ALTER TABLE Coupons
+ADD COLUMN created_at DATETIME NOT NULL;
+
 --6) Weak Table -> 1:1 with Coupon
 
 CREATE TABLE CouponHistories(

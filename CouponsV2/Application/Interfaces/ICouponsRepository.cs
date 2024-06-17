@@ -1,10 +1,10 @@
 using CouponsV2.Models;
-using CouponsV2.Data;
-using CouponsV2.Services;
+using CouponsV2.Infrastructure.Data;
+using CouponsV2.Application.Services.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace CouponsV2.Interfaces
+namespace CouponsV2.Application.Interfaces
 {
     public interface ICouponsRepository
     {
@@ -17,3 +17,6 @@ namespace CouponsV2.Interfaces
          Task<Coupon> RedemptionCouponAsync(string code);
     }
 }
+
+
+

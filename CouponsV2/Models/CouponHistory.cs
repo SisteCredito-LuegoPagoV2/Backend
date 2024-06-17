@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using CouponsV2.Data;
+using CouponsV2.Infrastructure.Data;
 
 namespace CouponsV2.Models
 {
