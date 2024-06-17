@@ -1,3 +1,4 @@
+using CouponsV2.Dtos;
 using CouponsV2.Models;
 using CouponsV2.Infrastructure.Data;
 using CouponsV2.Application.Services.Repositories;
@@ -10,8 +11,8 @@ namespace CouponsV2.Application.Interfaces
     {
          Task<IEnumerable<Coupon>> GetAllCouponsAsync();
          Task <Coupon> GetCouponByIdAsync(int id);
-         Task<Coupon> CreateCouponAsync(Coupon coupon);
-         Task<Coupon> UpdateCouponAsync(Coupon coupon);
+         Task<Coupon> CreateCouponAsync(CouponsDTO coupon);
+         Task<Coupon> UpdateCouponAsync(int id, CouponsDTO coupon);
          Task<Coupon> DeleteCouponAsync(int id);
          Task<Coupon> GetCouponsByCodeAsync(string code);
          Task<Coupon> RedemptionCouponAsync(string code);
