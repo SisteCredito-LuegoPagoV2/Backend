@@ -17,6 +17,7 @@ namespace CouponsV2.Models
         public decimal ? max_purchase_amount {get; set; }
         public string ? status {get; set; }
         public int? created_by {get; set; }
+        public string? code {get; set;}
 
     }
 }

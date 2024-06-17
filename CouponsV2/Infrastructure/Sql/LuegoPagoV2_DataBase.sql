@@ -53,6 +53,9 @@ CREATE TABLE Coupons(
     FOREIGN KEY (created_by) REFERENCES MarketplaceUser(id)
 );
 
+ALTER TABLE Coupons
+ADD COLUMN code VARCHAR(40) NOT NULL;
+
 --6) Weak Table -> 1:1 with Coupon
 
 CREATE TABLE CouponHistories(

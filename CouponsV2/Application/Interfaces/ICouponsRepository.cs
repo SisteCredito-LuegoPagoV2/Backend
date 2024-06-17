@@ -4,7 +4,7 @@ using CouponsV2.Services;
 using Microsoft.EntityFrameworkCore;
 
 
-namespace CouponsV2.Repository
+namespace CouponsV2.Interfaces
 {
     public interface ICouponsRepository
     {
@@ -13,7 +13,7 @@ namespace CouponsV2.Repository
          Task<Coupon> CreateCouponAsync(Coupon coupon);
          Task<Coupon> UpdateCouponAsync(Coupon coupon);
          Task<Coupon> DeleteCouponAsync(int id);
-         Task<Coupon> GetCouponsByCodeAsync(int id);
+         Task<Coupon> GetCouponsByCodeAsync(string code);
          Task<Coupon> RedemptionCouponAsync(string code);
     }
 }
