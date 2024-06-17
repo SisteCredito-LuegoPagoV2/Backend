@@ -1,3 +1,4 @@
+using CouponsV2.Application.Utils.Profiles;
 using Microsoft.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using CouponsV2.Infrastructure.Data;
@@ -15,6 +16,12 @@ builder.Services.AddDbContext<BaseContext>(Options =>
             builder.Configuration.GetConnectionString("CouponsV2Connection"),
             Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.20-mysql")
         ));
+
+//Register AutoMapper profiles
+builder.Services.AddAutoMapper(typeof(CouponsProfile));
+
+//Configuration of controllers
+builder.Services.AddControllers();
 
 var app = builder.Build();
 
