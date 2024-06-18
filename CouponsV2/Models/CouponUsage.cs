@@ -1,25 +1,31 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CouponsV2.Models
 {
     public class CouponUsage
     {
-        public int id {get; set; }
+        public int Id {get; set; }
         [Required(ErrorMessage = "This field is necessary")]
-        public int coupon_id {get; set; }
+        
+        [ForeignKey("Coupons")]
+        public int Coupon_Id {get; set; }
         [Required(ErrorMessage = "This field is necessary")]
-        public int user_id {get; set; }
+        
+        [ForeignKey("MarketplaceUsers")]
+        public int User_Id {get; set; }
         [Required(ErrorMessage = "This field is necessary")]
-        public DateTime usage_date {get; set; }
+        public DateOnly Usage_Date {get; set; }
         [Required(ErrorMessage = "This field is necessary")]
-        public int ? transaction_amount {get; set; }
+
+        public int ? Transaction_Amount {get; set; }
 
         //Relaciòn: CouponUsages lists to MarketplaceUsers - 
         
-        public MarketplaceUser? marketplaceUser {get; set; }
+        // public MarketplaceUser? marketplaceUser {get; set; }
 
-        //Relaciòn: CouponUsages lists to Coupons -
-        public Coupon? Coupon {get; set; }
+        // //Relaciòn: CouponUsages lists to Coupons -
+        // public Coupon? Coupon {get; set; }
 
     }
 }

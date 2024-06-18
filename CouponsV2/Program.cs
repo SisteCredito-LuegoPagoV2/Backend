@@ -1,7 +1,10 @@
 using CouponsV2.Application.Utils.Profiles;
 using Microsoft.AspNetCore;
+using Pomelo.EntityFrameworkCore.MySql;
+using  CouponsV2.Application.Services.Repositories;
 using Microsoft.EntityFrameworkCore;
 using CouponsV2.Infrastructure.Data;
+using CouponsV2.Application.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,13 +12,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddControllers();
 
 builder.Services.AddDbContext<BaseContext>(Options =>
         Options.UseMySql(
             builder.Configuration.GetConnectionString("CouponsV2Connection"),
             Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.20-mysql")
         ));
+
+//Configuration of the interfaces that will be used
+builder.Services.AddScoped<ICouponsRepository, CouponsRepository>();
+
+builder.Services.AddControllers();
+
 
 //Register AutoMapper profiles
 builder.Services.AddAutoMapper(typeof(CouponsProfile));

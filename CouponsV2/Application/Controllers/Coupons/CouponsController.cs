@@ -14,16 +14,26 @@ namespace CouponsV2.Application.Controllers.Coupons
         }
 
         [HttpGet]
-        public IActionResult GetAllCoupons()
+        [Route("api/coupons")]
+        public async Task<IActionResult> GetAllCoupons()
         {
-            return Ok(_coupons.GetAllCouponsAsync());
+            var coupons = await _coupons.GetAllCouponsAsync();
+            Console.WriteLine("...................");
+            Console.WriteLine(coupons);
+            return Ok(coupons);
         }
 
         [HttpGet]
         [Route("api/coupons/{id}")]
-        public IActionResult GetCouponById(int id)
+        public async Task<IActionResult> GetCouponById(int id)
         {
-            return Ok(_coupons.GetCouponByIdAsync(id));
+            var coupon = await _coupons.GetCouponByIdAsync(id);
+            if (coupon == null)
+            {
+                return NotFound();
+            }
+            return Ok(coupon);
         }
+
     }
 }

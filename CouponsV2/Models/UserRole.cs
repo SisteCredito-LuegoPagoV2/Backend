@@ -1,22 +1,25 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace CouponsV2.Models
 {
     public class UserRole
     {
-        public int id {get;set;}
+        public int Id {get;set;}
         [Required(ErrorMessage = "This field is necessary")]
-        public int user_id {get;set;}
+        [ForeignKey("MarketingUsers")]
+        public int User_Id {get;set;}
 
         [Required(ErrorMessage = "This field is necessary")]
-        public int role_id {get;set;}
+        [ForeignKey("Roles")]
+        public int Role_Id {get;set;}
 
         //Relaciòn: UserRole lists to Role -
-        public Role? Role {get;set;}
+        // public Role? Role {get;set;}
 
-        //Relaciòn : UserRole is listed by MarketingUser -
-        [JsonIgnore]
-        public MarketingUser? MarketingUser {get;set;}
+        // //Relaciòn : UserRole is listed by MarketingUser -
+        // [JsonIgnore]
+        // public List<MarketingUser>? MarketingUsers {get;set;}
     }
 }

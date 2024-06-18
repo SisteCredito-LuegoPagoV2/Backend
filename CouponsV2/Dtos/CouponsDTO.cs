@@ -4,39 +4,56 @@ namespace CouponsV2.Dtos
 {
     public class CouponsDTO
     {
-        public int ? id { get; set; }
+       public int ? Id { get; set; }
 
         [Required(ErrorMessage = "This field is necessary")]
-        public string ? name { get; set; }
+        public string ? Name { get; set; }
+
 
         [Required(ErrorMessage = "This field is necessary")]
-        public string ? description { get; set; }
+        public string ? Description { get; set; }
+
 
         [Required(ErrorMessage = "This field is necessary")]
-        public DateOnly ? start_date { get; set; }
+        public string? Code {get; set;}
+
 
         [Required(ErrorMessage = "This field is necessary")]
-        public DateOnly ? end_date { get; set; }
+        public DateOnly ? Start_Date { get; set; }
+
 
         [Required(ErrorMessage = "This field is necessary")]
-        public string ? discount_type { get; set; }
-        [Required(ErrorMessage = "This field is necessary")]
+        public DateOnly ? End_Date { get; set; }
 
-        public string ? discount_value { get; set; }
-        [Required(ErrorMessage = "This field is necessary")]
-        public int ? usage_limit {get; set;}
-        [Required(ErrorMessage = "This field is necessary")]
 
-        public decimal ? min_purchase_amount {get; set; }
         [Required(ErrorMessage = "This field is necessary")]
-        public decimal ? max_purchase_amount {get; set; }
+        public string ? Discount_Type { get; set; }
+
         [Required(ErrorMessage = "This field is necessary")]
-        public string ? status {get; set; }
+        public decimal ? Discount_Value { get; set; }
+
         [Required(ErrorMessage = "This field is necessary")]
-        public int? created_by {get; set; }
+        public int ? Usage_Limit {get; set;}
+
         [Required(ErrorMessage = "This field is necessary")]
-        public string? code {get; set;}
+        public decimal ? Min_Purchase_Amount {get; set; }
+
         [Required(ErrorMessage = "This field is necessary")]
-        public DateOnly? CreatedAt {get; set;}
+        public decimal ? Max_Purchase_Amount {get; set; }
+
+        [Required(ErrorMessage = "This field is necessary")]
+        public string ? Status {get; set; }
+
+        [Required(ErrorMessage = "This field is necessary")]
+        public DateOnly? Created_At {get; set;}
+
+        [Required(ErrorMessage = "This field is necessary")]
+        public int? Uses {get; set;}
+
+        [Required(ErrorMessage = "This field is necessary")]
+        public int? Created_By {get; set; }
+        
+
+        
     }
 }

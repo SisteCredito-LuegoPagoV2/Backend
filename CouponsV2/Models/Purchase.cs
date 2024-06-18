@@ -1,30 +1,30 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace CouponsV2.Models
 {
     public class Purchase
     {
-        public int id {get;set;}
+        public int Id {get;set;}
         
         [Required(ErrorMessage = "This field is necessary")]
-        public int user_id {get;set;}
+        [ForeignKey("MarketplaceUsers")]
+        public int User_Id {get;set;}
 
         [Required(ErrorMessage = "This field is necessary")]
-        public DateTime date {get;set;}
+        public DateOnly Date {get;set;}
 
         [Required(ErrorMessage = "This field is necessary")]
-        public decimal amount {get;set;}
+        public decimal Amount {get;set;}
 
         
         //Relaciòn: Purchase is listed by MarketplaceUser - 
-        [Required(ErrorMessage = " This field is necessary")]
-
-        public MarketplaceUser? MarketplaceUsers {get;set;}
+        // public MarketplaceUser? MarketplaceUsers {get;set;}
 
         //Relaciòn: Purchase is listed by PurchaseCoupon -
-        [JsonIgnore]
-        public ICollection<PurchaseCoupon>? PurchaseCoupons {get;set;}
+        // [JsonIgnore]
+        // public List<PurchaseCoupon>? PurchaseCoupons {get;set;}
 
     }
 }

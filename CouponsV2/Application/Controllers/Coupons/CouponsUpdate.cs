@@ -21,5 +21,12 @@ namespace CouponsV2.Application.Controllers.Coupons
         {
             return Ok(_coupons.UpdateCouponAsync(id , coupon));
         }
+
+        [HttpPatch]
+        [Route("api/coupons/{id}/redemption")]
+        public IActionResult RedemptionCoupon(string code)
+        {
+            return Ok(_coupons.RedemptionCouponAsync(code));
+        }
     }
 }

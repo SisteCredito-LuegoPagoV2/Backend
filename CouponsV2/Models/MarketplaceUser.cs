@@ -5,27 +5,27 @@ namespace CouponsV2.Models
 {
     public class MarketplaceUser
     {
-        public int id {get;set;}
+        public int Id {get;set;}
 
         [Required(ErrorMessage = "This field is necessary")]
-        public string ? username {get;set;}
+        public string ? Username {get;set;}
 
         [Required(ErrorMessage = "This field is necessary")]
-        public string ? password {get;set;}
+        public string ? Password {get;set;}
 
         [Required(ErrorMessage = "This field is necessary")]
-        public string ? email {get;set;}
+        public string ? Email {get;set;}
 
 
         //Relaciòn : MarketplaceUser is listed by Purchase -
 
-        [JsonIgnore]
-        public ICollection<Purchase>? Purchases {get;set;}
+        // [JsonIgnore]
+        // public List<Purchase>? Purchases {get;set;}
 
-        //Relaciòn: MarketplaceUser is listed by CouponUsage - 
+        // //Relaciòn: MarketplaceUser is listed by CouponUsage - 
         
-        [JsonIgnore]
-        public ICollection<CouponUsage> ? CouponUsages {get;set;}
+        // [JsonIgnore]
+        // public List<CouponUsage> ? CouponUsages {get;set;}
 
     }
 }

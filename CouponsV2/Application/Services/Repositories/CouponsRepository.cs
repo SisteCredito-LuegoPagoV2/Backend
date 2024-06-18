@@ -13,50 +13,52 @@ namespace CouponsV2.Application.Services.Repositories
         private readonly BaseContext _context;
         private readonly IMapper _mapper;
 
-        public CouponsRepository(BaseContext context)
+        public CouponsRepository(BaseContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<IEnumerable<Coupon>> GetAllCouponsAsync()
         {
             return await _context.Coupons.ToListAsync();
+            // return await _context.Coupons.Include(c => c.MarketingUsers).ToListAsync();
         }
 
         public async Task<Coupon?> GetCouponByIdAsync(int id)
         {
-            return await _context.Coupons.FirstOrDefaultAsync(c => c.id == id);
+            return await _context.Coupons.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<Coupon> CreateCouponAsync(CouponsDTO couponDto)
+        public async Task<Coupon> CreateCouponAsync(CouponsDTO coupon)
         {
-            Coupon coupon = new Coupon
+            Coupon couponCreate = new Coupon
             {
                 // Map properties from CouponsDTO to Coupon
-                id = couponDto.id,
-                name = couponDto.name,
-                description = couponDto.description,
-                start_date = couponDto.start_date,
-                end_date = couponDto.end_date,
-                discount_type = couponDto.discount_type,
-                discount_value = couponDto.discount_value,
-                usage_limit = couponDto.usage_limit,
-                min_purchase_amount = couponDto.min_purchase_amount,
-                max_purchase_amount = couponDto.max_purchase_amount,
-                status = couponDto.status,
-                created_by = couponDto.created_by,
-                code = couponDto.code,
-                CreatedAt = couponDto.CreatedAt
-
+                Id = coupon.Id,
+                Name = coupon.Name,
+                Description = coupon.Description,
+                Code = coupon.Code,
+                Start_Date = coupon.Start_Date,
+                End_Date = coupon.End_Date,
+                Discount_Type = coupon.Discount_Type,
+                Discount_Value = coupon.Discount_Value,
+                Usage_Limit = coupon.Usage_Limit,
+                Min_Purchase_Amount = coupon.Min_Purchase_Amount,
+                Max_Purchase_Amount = coupon.Max_Purchase_Amount,
+                Status = coupon.Status,
+                Created_By = coupon.Created_By,
+                Created_At = coupon.Created_At,
+                Uses = coupon.Uses
             };
 
-            _context.Coupons.Add(coupon);
+            _context.Coupons.Add(couponCreate);
             await _context.SaveChangesAsync();
-            return coupon;
+            return couponCreate;
 
         }
 
-        public async Task<Coupon> UpdateCouponAsync(int id ,CouponsDTO coupon)
+        public async Task<Coupon>? UpdateCouponAsync(int id ,CouponsDTO coupon)
         {
             var couponToUpdate = _context.Coupons.Find(id);
             _mapper.Map(coupon, couponToUpdate);
@@ -66,10 +68,10 @@ namespace CouponsV2.Application.Services.Repositories
 
         public async Task<Coupon?> DeleteCouponAsync(int id)
         {
-            var coupon = await _context.Coupons.FirstOrDefaultAsync(c => c.id == id);
+            var coupon = await _context.Coupons.FirstOrDefaultAsync(c => c.Id == id);
             if (coupon != null)
             {
-                coupon.status = "inactive";
+                coupon.Status = "inactive";
                 await _context.SaveChangesAsync();
             }
             return coupon;
@@ -77,15 +79,15 @@ namespace CouponsV2.Application.Services.Repositories
 
         public async Task<Coupon?> GetCouponsByCodeAsync(string code)
         {
-            return await _context.Coupons.FirstOrDefaultAsync(c => c.code == code);
+            return await _context.Coupons.FirstOrDefaultAsync(c => c.Code == code);
         }
 
         public async Task<Coupon?> RedemptionCouponAsync(string code)
         {
-            var coupon = await _context.Coupons.FirstOrDefaultAsync(c => c.code == code);
+            var coupon = await _context.Coupons.FirstOrDefaultAsync(c => c.Code == code);
             if (coupon != null)
             {
-                coupon.status = "used";
+                coupon.Status = "used";
                 await _context.SaveChangesAsync();
             }
             return coupon;
