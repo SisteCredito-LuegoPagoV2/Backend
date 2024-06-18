@@ -40,7 +40,6 @@ namespace CouponsV2.Models
         [Required(ErrorMessage = "This field is necessary")]
         public string ? Status {get; set; }
    
-        // public MarketingUser ? MarketingUsers {get;set;}
 
         [Required(ErrorMessage = "This field is necessary")]
         public DateOnly? Created_At {get; set;}
@@ -52,24 +51,25 @@ namespace CouponsV2.Models
         [ForeignKey ("MarketingUsers")]
         public int? Created_By {get; set; }
 
+
         
         //Relaciòn: Coupon is listed by CouponUsage - 
 
-        // [JsonIgnore]
-        // public List<CouponUsage>? CouponUsages {get;set;}
+        [JsonIgnore]
+        public List<CouponUsage>? CouponUsages {get;set;}
 
-        // //Relaciòn: Coupon is listed by PurchaseCoupon - 
-        // [JsonIgnore]
-        // public List<PurchaseCoupon>? PurchaseCoupons {get;set;}
+        //Relaciòn: Coupon is listed by PurchaseCoupon - 
+        [JsonIgnore]
+        public List<PurchaseCoupon>? PurchaseCoupons {get;set;}
 
-        // //Relaciòn: Coupon is listed by CouponHistory -
+        //Relaciòn: Coupon is listed by CouponHistory -
 
-        // [JsonIgnore]
-        // public List<CouponHistory>? CouponHistories {get;set;}
+        [JsonIgnore]
+        public List<CouponHistory>? CouponHistories {get;set;}
 
         //Relaciòn: Coupon lists to MarketingUser - 
 
-        //public MarketingUser? MarketingUsers {get;set;}
+        public MarketingUser? MarketingUsers {get;set;}
 
     }
 }

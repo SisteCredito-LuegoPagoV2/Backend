@@ -11,8 +11,8 @@ namespace CouponsV2.Application.Interfaces
     {
          Task<IEnumerable<Coupon>> GetAllCouponsAsync();
          Task <Coupon> GetCouponByIdAsync(int id);
-         Task<Coupon> CreateCouponAsync(CouponsDTO coupon);
-         Task<Coupon> UpdateCouponAsync(int id, CouponsDTO coupon);
+         Task<Coupon> CreateCouponAsync(CouponsDTO couponDTO);
+         Task<Coupon> UpdateCouponAsync(int id, CouponsDTO couponDTO);
          Task<Coupon> DeleteCouponAsync(int id);
          Task<Coupon> GetCouponsByCodeAsync(string code);
          Task<Coupon> RedemptionCouponAsync(string code);

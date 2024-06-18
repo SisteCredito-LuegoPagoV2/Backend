@@ -16,9 +16,24 @@ namespace CouponsV2.Application.Controllers.Coupons
 
         [HttpPost]
         [Route("api/coupons/create")]
-        public IActionResult CreateCoupon([FromBody]CouponsDTO coupon)
+        public async Task<IActionResult> CreateCoupon([FromBody] CouponsDTO couponDTO)
         {
-            return Ok(_coupons.CreateCouponAsync(coupon));
+            if (couponDTO == null)
+            {
+                return BadRequest("Invalid coupon data, nothing was entered(null).");
+            }
+
+            try
+            {
+                var createdCoupon = await _coupons.CreateCouponAsync(couponDTO);
+                return CreatedAtAction(nameof(CreateCoupon), new { id = createdCoupon.Id }, createdCoupon);
+            }
+            catch (Exception ex)
+            {
+                // Log exception here
+                return StatusCode(500, "Internal server error: " + ex.Message);
+            }
         }
+
     }
 }

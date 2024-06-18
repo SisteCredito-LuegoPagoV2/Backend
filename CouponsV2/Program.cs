@@ -21,6 +21,7 @@ builder.Services.AddDbContext<BaseContext>(Options =>
 
 //Configuration of the interfaces that will be used
 builder.Services.AddScoped<ICouponsRepository, CouponsRepository>();
+builder.Services.AddLogging();  // Añade el servicio de logging *
 
 builder.Services.AddControllers();
 
