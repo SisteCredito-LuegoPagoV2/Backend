@@ -17,7 +17,7 @@ namespace CouponsV2.Application.Controllers.Coupons
 
         [HttpPut]
         [Route("api/coupons/{id}/update")]
-        public IActionResult UpdateCoupon([FromBody] int id , CouponsDTO coupon)
+        public IActionResult UpdateCoupon([FromBody] CouponsDTO coupon,int id )
         {
             return Ok(_coupons.UpdateCouponAsync(id , coupon));
         }

@@ -90,7 +90,7 @@ namespace CouponsV2.Application.Services.Repositories
             return couponToUpdate;
         }
 
-        public async Task<Coupon?> DeleteCouponAsync(int id)
+        public async Task<Coupon> DeleteCouponAsync(int id)
         {
             var coupon = await _context.Coupons.FirstOrDefaultAsync(c => c.Id == id);
             if (coupon != null)
