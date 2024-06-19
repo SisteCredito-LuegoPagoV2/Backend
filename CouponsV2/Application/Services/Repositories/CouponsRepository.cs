@@ -22,11 +22,10 @@ namespace CouponsV2.Application.Services.Repositories
             _logger = logger;
         }
 
-        public async Task<IEnumerable<Coupon>> GetAllCouponsAsync()
+         public async Task<IEnumerable<Coupon>> GetAllCouponsAsync()
         {
             return await _context.Coupons.Include(c => c.MarketingUsers).ToListAsync();
         }
-
         public async Task<Coupon?> GetCouponByIdAsync(int id)
         {
             return await _context.Coupons.Include(m => m.MarketingUsers).FirstOrDefaultAsync(c => c.Id == id);
@@ -84,6 +83,7 @@ namespace CouponsV2.Application.Services.Repositories
 
         public async Task<Coupon>? UpdateCouponAsync(int id ,CouponsDTO coupon)
         {
+
             var couponToUpdate = _context.Coupons.Find(id);
             _mapper.Map(coupon, couponToUpdate);
             _context.SaveChanges();

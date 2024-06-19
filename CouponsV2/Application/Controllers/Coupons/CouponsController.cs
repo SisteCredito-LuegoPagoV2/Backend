@@ -1,26 +1,39 @@
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using CouponsV2.Models;
 using CouponsV2.Application.Interfaces;
 using CouponsV2.Application.Services;
-using Microsoft.AspNetCore.Mvc;
+
 
 namespace CouponsV2.Application.Controllers.Coupons
 {
     public class CouponsController : ControllerBase
     {
-        private readonly ICouponsRepository _coupons;
+        private readonly ICouponsRepository _coupons;        // private readonly ApiChecker _apiChecker;
+
+        private bool _apiChecked = false;
 
         public CouponsController(ICouponsRepository coupons)
         {
             _coupons = coupons;
+            // _apiChecker = apiChecker;
         }
 
         [HttpGet]
-        [Route("api/coupons")]
-        public async Task<IActionResult> GetAllCoupons()
+        [Route("api/coupons/list")]
+         public async Task<IEnumerable<Coupon>> GetAllCoupons()
         {
-            var coupons = await _coupons.GetAllCouponsAsync();
-            Console.WriteLine("...................");
-            Console.WriteLine(coupons);
-            return Ok(coupons);
+            Webhook webhook = new Webhook();
+            webhook.SendWebhook();
+            // Verificar la API solo si no se ha verificado anteriormente
+            // if (!_apiChecked)
+            // {
+            //     await _apiChecker.CheckApiAsync();
+            //     _apiChecked = true;
+            // }
+            // Return the list of coupons
+            return await _coupons.GetAllCouponsAsync();
         }
 
         [HttpGet]
