@@ -133,10 +133,14 @@ namespace CouponsV2.Application.Services.Repositories
                 _context.Coupons.Update(coupon);
                 await _context.SaveChangesAsync();
 
+                var templateHtmlRoute = "/home/riwip5-042/Documents/KevinDazaR/Backend/CouponsV2/Application/Utils/TemplateEmailHTML/TemplateEmail.html";
+                string templateHtmlContent = System.IO.File.ReadAllText(templateHtmlRoute);
                 var subject = "Coupons - LuegoPago";
                 var emailCustomer = "kevindazar.dev@gmail.com";
 
-                var mensajeCustomer = $"Hola, Sr@ XXX,\nTu còdigo de Cupòn #{coupon.Code}, ha sido aplicado exitosamente a la compra realizada el XXX{now:yyyy-MM-dd}, por valor de $XXX,\n\n\n\n\nFeliz noche!";
+
+                // var mensajeCustomer = $"Hola, Sr@ XXX,\nTu còdigo de Cupòn #{coupon.Code}, ha sido aplicado exitosamente a la compra realizada el XXX{now:yyyy-MM-dd}, por valor de $XXX,\n\n\n\n\nFeliz noche!";
+                var mensajeCustomer = templateHtmlContent;
 
                 await _emailRepository.SendEmailAsync(emailCustomer, subject, mensajeCustomer);
 
