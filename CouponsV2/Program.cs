@@ -9,6 +9,9 @@ using CouponsV2.Application.Interfaces;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using CouponsV2.Application.Services.Emails;
+using CouponsV2.Application.Services.Repositories;
+using MailKit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +29,10 @@ builder.Services.AddDbContext<BaseContext>(Options =>
 // Configuration of the interfaces that will be used
 builder.Services.AddScoped<ICouponsRepository, CouponsRepository>();
 builder.Services.AddLogging();  // Añade el servicio de logging
+
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<IEmailRepository, EmailRepository>();
+
 
 // Register AutoMapper profiles
 builder.Services.AddAutoMapper(typeof(CouponsProfile));

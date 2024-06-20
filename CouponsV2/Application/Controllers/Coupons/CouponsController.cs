@@ -22,7 +22,7 @@ namespace CouponsV2.Application.Controllers.Coupons
 
         [HttpGet]
         [Route("api/coupons/list")]
-         public async Task<IEnumerable<Coupon>> GetAllCoupons()
+        public async Task<IEnumerable<Coupon>> GetAllCoupons()
         {
             Webhook webhook = new Webhook();
             webhook.SendWebhook();

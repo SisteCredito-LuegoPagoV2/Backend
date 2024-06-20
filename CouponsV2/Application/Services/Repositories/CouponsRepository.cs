@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using CouponsV2.Dtos;
@@ -5,24 +9,29 @@ using CouponsV2.Models;
 using CouponsV2.Infrastructure.Data;
 using CouponsV2.Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using CouponsV2.Application.Interfaces;
+using CouponsV2.Application.Services.Emails;
 
 
 namespace CouponsV2.Application.Services.Repositories
 {
     public class CouponsRepository : ICouponsRepository
-    {   
+    {
         private readonly BaseContext _context;
         private readonly IMapper _mapper;
         private readonly ILogger<CouponsRepository> _logger;
 
-        public CouponsRepository(BaseContext context, IMapper mapper,ILogger<CouponsRepository> logger)
+        private readonly IEmailRepository _emailRepository;
+
+        public CouponsRepository(BaseContext context, IMapper mapper, ILogger<CouponsRepository> logger, IEmailRepository emailRepository)
         {
             _context = context;
             _mapper = mapper;
             _logger = logger;
+            _emailRepository = emailRepository;
         }
 
-         public async Task<IEnumerable<Coupon>> GetAllCouponsAsync()
+        public async Task<IEnumerable<Coupon>> GetAllCouponsAsync()
         {
             return await _context.Coupons.Include(c => c.MarketingUsers).ToListAsync();
         }
@@ -81,7 +90,7 @@ namespace CouponsV2.Application.Services.Repositories
 
 
 
-        public async Task<Coupon>? UpdateCouponAsync(int id ,CouponsDTO coupon)
+        public async Task<Coupon>? UpdateCouponAsync(int id, CouponsDTO coupon)
         {
 
             var couponToUpdate = _context.Coupons.Find(id);
@@ -106,7 +115,7 @@ namespace CouponsV2.Application.Services.Repositories
             return await _context.Coupons.FirstOrDefaultAsync(c => c.Code == code);
         }
 
-       public async Task<Coupon?> RedemptionCouponAsync(string code)
+        public async Task<Coupon?> RedemptionCouponAsync(string code)
         {
             if (code == null)
             {
@@ -115,16 +124,28 @@ namespace CouponsV2.Application.Services.Repositories
             }
 
             var coupon = await _context.Coupons.FirstOrDefaultAsync(c => c.Code == code);
+            var now = DateTime.Now;
             if (coupon != null)
             {
                 coupon.Status = "Used";
                 coupon.Uses++;
+
+                _context.Coupons.Update(coupon);
                 await _context.SaveChangesAsync();
+
+                var subject = "Coupons - LuegoPago";
+                var emailCustomer = "kevindazar.dev@gmail.com";
+
+                var mensajeCustomer = $"Hola, Sr@ XXX,\nTu còdigo de Cupòn #{coupon.Code}, ha sido aplicado exitosamente a la compra realizada el XXX{now:yyyy-MM-dd}, por valor de $XXX,\n\n\n\n\nFeliz noche!";
+
+                await _emailRepository.SendEmailAsync(emailCustomer, subject, mensajeCustomer);
+
                 return coupon;
+
             }
             else
             {
-                return null; // No se encontró el cupón, devolver null
+                throw new KeyNotFoundException("Code not found or not valid");
             }
         }
     }

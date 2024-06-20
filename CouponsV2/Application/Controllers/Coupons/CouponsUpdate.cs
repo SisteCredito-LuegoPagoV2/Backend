@@ -22,20 +22,5 @@ namespace CouponsV2.Application.Controllers.Coupons
             return Ok(_coupons.UpdateCouponAsync(id , coupon));
         }
 
-        [HttpPatch]
-        [Route("api/coupons/{code}/redemption")]
-        public async Task<IActionResult> RedemptionCoupon(string code)
-        {
-            var coupon = await _coupons.RedemptionCouponAsync(code);
-            if (coupon != null)
-            {
-                return Ok(new { message = "This coupon was marked as used" });
-            }
-            else
-            {
-                return NotFound("Coupon not found");
-            }
-        }
-
     }
 }
