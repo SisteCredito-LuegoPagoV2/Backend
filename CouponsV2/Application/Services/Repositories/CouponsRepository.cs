@@ -133,16 +133,40 @@ namespace CouponsV2.Application.Services.Repositories
                 _context.Coupons.Update(coupon);
                 await _context.SaveChangesAsync();
 
-                var templateHtmlRoute = "/home/riwip5-042/Documents/KevinDazaR/Backend/CouponsV2/Application/Utils/TemplateEmailHTML/TemplateEmail.html";
-                string templateHtmlContent = System.IO.File.ReadAllText(templateHtmlRoute);
-                var subject = "Coupons - LuegoPago";
-                var emailCustomer = "kevindazar.dev@gmail.com";
+                var templateHtmlRoute = "Application/Utils/Resources/TemplatesHTML/index.html";
 
+                // Reemplazar marcadores de posición con valores reales
+
+                
+                try
+                {
+                    string templateHtmlContent = System.IO.File.ReadAllText(templateHtmlRoute);
+                         
+                    // Reemplazar marcadores de posición con valores reales
+                    var mensajeCustomer = templateHtmlContent
+                        .Replace("{couponCode}", coupon.Code)
+                        .Replace("{purchaseDate}", now.ToString("yyyy-MM-dd"));
+
+                    
+                    var subject = "Coupons - LuegoPago";
+                    var emailCustomer = "kevindazar.dev@gmail.com";
+
+                    await _emailRepository.SendEmailAsync(emailCustomer, subject, mensajeCustomer);
+                }
+
+                catch (Exception ex)
+                {
+                    // Manejar cualquier excepción que ocurra al leer el archivo
+                    _logger.LogError($"Error al leer el archivo HTML: {ex.Message}");
+                    throw; 
+                }
+
+           
 
                 // var mensajeCustomer = $"Hola, Sr@ XXX,\nTu còdigo de Cupòn #{coupon.Code}, ha sido aplicado exitosamente a la compra realizada el XXX{now:yyyy-MM-dd}, por valor de $XXX,\n\n\n\n\nFeliz noche!";
-                var mensajeCustomer = templateHtmlContent;
+                // var mensajeCustomer = templateHtmlContent;
 
-                await _emailRepository.SendEmailAsync(emailCustomer, subject, mensajeCustomer);
+           
 
                 return coupon;
 
